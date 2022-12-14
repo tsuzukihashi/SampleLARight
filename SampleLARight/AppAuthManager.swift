@@ -39,7 +39,7 @@ class AppAuthManager: ObservableObject {
         try await right.authorize(
             localizedReason: "セキュアにデータを保存するために利用します"
         )
-        _ = try await LARightStore.shared.saveRight(
+        _ = try await rightStore.saveRight(
             right,
             identifier: dataIdentifier,
             secret: data
@@ -47,7 +47,7 @@ class AppAuthManager: ObservableObject {
     }
 
     func fetchData() async throws -> Data {
-        let right = try await LARightStore.shared.right(forIdentifier: dataIdentifier)
+        let right = try await rightStore.right(forIdentifier: dataIdentifier)
         try await right.authorize(
             localizedReason: "セキュアなデータにアクセスするために利用します"
         )
@@ -55,6 +55,6 @@ class AppAuthManager: ObservableObject {
     }
 
     func removeData() async throws {
-        try await LARightStore.shared.removeRight(forIdentifier: dataIdentifier)
+        try await rightStore.removeRight(forIdentifier: dataIdentifier)
     }
 }
